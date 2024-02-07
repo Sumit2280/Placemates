@@ -1,0 +1,2 @@
+class CompanyPlacement < ApplicationRecord
+end

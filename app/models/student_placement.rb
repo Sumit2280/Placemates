@@ -1,0 +1,2 @@
+class StudentPlacement < ApplicationRecord
+end

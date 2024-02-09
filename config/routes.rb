@@ -7,13 +7,24 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :users, only: [:create, :index, :show]
+  resources :users, only: [:create, :index, :update, :show, :destroy]
   post "/login", to: "users#login"  
-  put "/update_info", to: "users#update_info"
-  get "/search", to: "users#search"
-  delete "/destroy", to: "users#destroy"
+  # put "/update_info", to: "users#update_info"
+  # get "/search", to: "users#search"
+  # delete "/destroy", to: "users#destroy"
 
-  resources :roles, only: [:index, :create, :show]
-  resources :blogs, only: [:index, :create]
+  # resources :roles, only: [:index, :create, :show]
+  resources :testimonials, only: [:index, :create, :update, :destroy, :show] 
+  # get "/find_blogs", to: "blogs#find_blogs"
+
+  resources :student_placements, only: [:index, :create, :show]
+
+  resources :companies, only: [:index, :create, :show, :update]
+
+  resources :company_placements, only: [:index, :create]
+
+  resources :opportunities, only: [:create, :index, :update, :destroy]
+
+  resources :user_applications, only: [:create, :index, :update, :destroy]
 
 end

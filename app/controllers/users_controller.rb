@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create, :login]
+
   def index
     @users=User.all
     render json: @users
   end
 
   def create
-    @user=User.create(create_params)
+    @user=User.create!(create_params)
     if @user.valid?
       @token = encode_token(@user.id)
       render json: {user:@user, token:@token}
@@ -25,48 +27,33 @@ class UsersController < ApplicationController
     end
   end
 
-  def update_info
-    @user = User.find_by(email: params[:email])
-    if @user
-      @user.update(update_params)
-      render json: @user
-    else 
-      render json: {error: "not a valid user"}
-    end
+  def update
+    id = params[:id]
+    @user = User.find(id)
+    @user.update!(update_params)
+    render json: @user
   end
 
-  def search
-    begin
-      @user = User.find_by(email: params[:email])
-      render json: @user
-    rescue ActiveRecord::RecordNotFound
-      render json: {error: "Not a valid user"}
-    end
+  def show
+    id = params[:id]
+    @user = User.find(id)
+    render json: @user
   end
 
   def destroy
-    # debugger
-    begin
-      @user = User.find_by(email: params[:email])
-      if @user && @user.authenticate(params[:password])
-        @user.delete
-        render json: "Success"
-      else
-        render json: "invalid username of password"
-      end
-    rescue ActiveRecord::RecordNotFound
-      render json: {error: "not a valid user"}
-    end
+    id= params[:id]
+    @user= User.find(id)
+    @user.delete
+    json render: "Successfully Deleted"
   end
   
   private
-
-  def create_params
-    params.require(:user).permit(:email, :password)
+  def update_params
+    params.require(:user).permit(:password, :linkedin)
   end
   
-  def update_params
-    params.require(:user).permit(:first_name, :last_name, :placed, :batch, :branch)
+  def create_params
+    params.require(:user).permit(:email, :password, :first_name, :last_name, :placed, :batch, :branch, :linkedin, :role_id)
   end
 
 end

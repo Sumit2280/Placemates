@@ -1,5 +1,13 @@
 class User < ApplicationRecord
   has_secure_password
-  validates :email, presence:true, uniqueness: true 
-  has_many :blogs
-end
+
+  belongs_to :role
+  has_one :student_placement
+  has_many :testimonials
+
+  validates :email, presence: true, uniqueness: true, format: {with: /\A\w+[@][a-z]+[.]\w+\z/, message: 'Must be a valid email'}
+  validates :password, presence: true
+  validates :first_name, :last_name, presence: true, format: {with: /\A[a-zA-Z]+\z/, message: 'Only characters are allowed'}
+  # validates :batch, :branch, presence: true
+
+ end

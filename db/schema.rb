@@ -10,29 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_06_104432) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_09_065013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "blogs", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_blogs_on_user_id"
-  end
-
   create_table "companies", force: :cascade do |t|
-    t.bigint "company_placements_id"
     t.string "name"
     t.string "information"
     t.string "website"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "student_placements_id"
-    t.index ["company_placements_id"], name: "index_companies_on_company_placements_id"
-    t.index ["student_placements_id"], name: "index_companies_on_student_placements_id"
   end
 
   create_table "company_placements", force: :cascade do |t|
@@ -41,6 +28,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_104432) do
     t.integer "selected"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_company_placements_on_company_id"
+  end
+
+  create_table "opportunities", force: :cascade do |t|
+    t.bigint "company_id"
+    t.string "status"
+    t.integer "no_of_applications"
+    t.string "designation"
+    t.string "skillset"
+    t.float "package"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_opportunities_on_company_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -50,23 +53,38 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_104432) do
   end
 
   create_table "student_placements", force: :cascade do |t|
-    t.bigint "companies_id"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "branch"
-    t.string "batch"
+    t.bigint "company_id"
     t.string "designation"
     t.float "package"
     t.text "requirements"
-    t.string "email"
-    t.string "linkedin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["companies_id"], name: "index_student_placements_on_companies_id"
+    t.bigint "user_id"
+    t.index ["company_id"], name: "index_student_placements_on_company_id"
+    t.index ["user_id"], name: "index_student_placements_on_user_id"
+  end
+
+  create_table "testimonials", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_testimonials_on_user_id"
+  end
+
+  create_table "user_applications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "opportunity_id"
+    t.index ["opportunity_id"], name: "index_user_applications_on_opportunity_id"
+    t.index ["user_id"], name: "index_user_applications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.bigint "roles_id"
+    t.bigint "role_id"
     t.string "email"
     t.string "password_digest"
     t.string "first_name"
@@ -74,14 +92,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_06_104432) do
     t.string "branch"
     t.string "batch"
     t.boolean "placed"
+    t.string "linkedin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["roles_id"], name: "index_users_on_roles_id"
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
-  add_foreign_key "blogs", "users"
-  add_foreign_key "companies", "company_placements", column: "company_placements_id"
-  add_foreign_key "companies", "student_placements", column: "student_placements_id"
-  add_foreign_key "student_placements", "companies", column: "companies_id"
-  add_foreign_key "users", "roles", column: "roles_id"
+  add_foreign_key "company_placements", "companies"
+  add_foreign_key "opportunities", "companies"
+  add_foreign_key "student_placements", "companies"
+  add_foreign_key "student_placements", "users"
+  add_foreign_key "testimonials", "users"
+  add_foreign_key "user_applications", "opportunities"
+  add_foreign_key "user_applications", "users"
+  add_foreign_key "users", "roles"
 end

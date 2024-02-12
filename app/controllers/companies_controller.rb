@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+  
+  # load_and_authorize_resource
 
   def index
     render json: Company.all
@@ -12,7 +14,7 @@ class CompaniesController < ApplicationController
       render json: "Something went Wrong"
     end
   end
-
+  
   def show
     id=params[:id]
     @company=Company.find(id)

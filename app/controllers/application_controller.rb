@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::API
   # protect_from_forgery
-  before_action :authorized
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActionController::ParameterMissing, with: :parameter_missing
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+
+  before_action :authorized 
+  load_and_authorize_resource 
 
   def encode_token(payload)
     JWT.encode(payload, Rails.application.credentials[:secret_key_base]) 
@@ -33,6 +39,24 @@ class ApplicationController < ActionController::API
 
   def authorized
       render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+  end
+
+  private
+
+  def record_not_found
+    render json: { error: 'Record not found' }, status: :not_found
+  end
+
+  def parameter_missing
+    render json: { error: 'Required parameter missing' }, status: :bad_request
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: { error: 'Unauthorized' },  status: :unauthorized
+  end
+
+  def record_invalid(exception)
+    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
 
 end

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:create, :login]
-
+  
   def index
     @users=User.all
     render json: @users
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def update
     id = params[:id]
     @user = User.find(id)
-    @user.update!(update_params)
+    @user.update(update_params)
     render json: @user
   end
 
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   
   private
   def update_params
-    params.require(:user).permit(:password, :linkedin)
+    params.require(:user).permit(:linkedin)
   end
   
   def create_params

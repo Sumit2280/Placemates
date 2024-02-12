@@ -4,6 +4,21 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+
+    if user.present?
+      # debugger
+      role=Role.find(user.role_id).name
+      can [:index], :all
+      can [:create, :update], Company if role=='tpo'
+      can [:create], CompanyPlacement if role=='tpo'
+      can [:create, :update, :destroy, :close_opportunity], Opportunity if role=='tpo'
+      can [:create], StudentPlacement if role=='tpo'
+      can [:create, :update, :destroy], UserApplication if role=='user'
+      can :manage, :all if role=='admin'
+    else
+      can [:create, :login], User
+    end
+
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?

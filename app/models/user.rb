@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :role
   has_one :student_placement
   has_many :testimonials
+  has_many :user_applications
 
   validates :email, presence: true, uniqueness: true, format: {with: /\A\w+[@][a-z]+[.]\w+\z/, message: 'Must be a valid email'}
   validates :password, presence: true

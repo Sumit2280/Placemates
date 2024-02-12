@@ -29,3 +29,11 @@
 
 en:
   hello: "Hello world"
+
+  errors:
+    default: "Something Went Wrong!"
+    empty: "No record Found!"
+
+  success:
+    delete: "Successfully deleted Record."
+

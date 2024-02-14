@@ -3,15 +3,21 @@ class CompaniesController < ApplicationController
   # load_and_authorize_resource
 
   def index
-    render json: Company.all
+    if params[:name].present?
+      company=Company.where(name: params[:name])
+      print(company)
+    else
+      parameter_missing
+    end
   end
 
   def create
+    # byebug
     @company=Company.create(create_params)
     if @company.valid?
       render json: @company
     else
-      render json: "Something went Wrong"
+      render json: {error: I18n.t('errors.default')}, status: :unprocessable_entity
     end
   end
   

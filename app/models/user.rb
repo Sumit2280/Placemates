@@ -12,3 +12,4 @@ class User < ApplicationRecord
   # validates :batch, :branch, presence: true
 
  end
+ 

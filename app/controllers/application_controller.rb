@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActionController::ParameterMissing, with: :parameter_missing
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  # rescue_from head :no_content
 
   before_action :authorized 
   load_and_authorize_resource 
@@ -13,7 +14,7 @@ class ApplicationController < ActionController::API
   end
 
   def decoded_token
-    # debugger
+    # byebug
     header = request.headers['Authorization']
     if header
       token = header.split(" ")[1]
@@ -38,25 +39,34 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-      render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+      render json: { message: I18n.t('errors.log_in') }, status: :unauthorized unless logged_in?
   end
 
   private
 
   def record_not_found
-    render json: { error: 'Record not found' }, status: :not_found
+    render json: { error: I18n.t('errors.not_found') }, status: :not_found
   end
 
   def parameter_missing
-    render json: { error: 'Required parameter missing' }, status: :bad_request
+    render json: { error: I18n.t('errors.bad_request') }, status: :bad_request
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    render json: { error: 'Unauthorized' },  status: :unauthorized
+    render json: { error: I18n.t('errors.unauthorized') },  status: :unauthorized
   end
 
   def record_invalid(exception)
     render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
+  end
+
+  def print(data)
+
+    if data.empty?
+      record_not_found
+    else
+      render json: data
+    end
   end
 
 end

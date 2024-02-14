@@ -33,7 +33,15 @@ en:
   errors:
     default: "Something Went Wrong!"
     empty: "No record Found!"
+    log_in: "Please log in"
+    not_found: "record not found"
+    bad_request: "Required parameter missing"
+    unauthorized: "Unauthorized"
 
   success:
     delete: "Successfully deleted Record."
+
+  application:
+    placed: "Can't apply!"
+    closed: "Application for Opportunity is not open"
 

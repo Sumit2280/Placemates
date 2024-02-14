@@ -24,6 +24,8 @@ default: &default
 development:
   <<: *default
   database: placemates_development
+  username: postgres
+  password: postgres
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -58,6 +60,8 @@ development:
 test:
   <<: *default
   database: placemates_test
+  username: postgres
+  password: postgres
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +85,9 @@ test:
 #
 production:
   <<: *default
-  database: placemates_production
-  username: placemates
-  password: <%= ENV["PLACEMATES_DATABASE_PASSWORD"] %>
+  # database: placemates_production
+  # username: placemates
+  # password: <%= ENV["PLACEMATES_DATABASE_PASSWORD"] %>
+  
+  username: postgres
+  password: postgres

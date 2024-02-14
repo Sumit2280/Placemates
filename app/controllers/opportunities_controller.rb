@@ -11,7 +11,7 @@ class OpportunitiesController < ApplicationController
       print(@opportunities)
 
     else
-      render json: Opportunity.all
+      parameter_missing
     end
 
   end
@@ -21,7 +21,7 @@ class OpportunitiesController < ApplicationController
     if @opportunity.valid?
       render json: @opportunity
     else
-      render json: I18n.t('errors.default')
+      render json: {error: I18n.t('errors.default')} , status: :unprocessable_entity
     end
   end
 
@@ -32,7 +32,7 @@ class OpportunitiesController < ApplicationController
     if @opportunity.valid?
       render json: @opportunity
     else
-      render json: I18n.t('errors.default')
+      render json: {error: I18n.t('errors.default')} , status: :unprocessable_entity
     end
   end
 
@@ -47,25 +47,6 @@ class OpportunitiesController < ApplicationController
     end
   end
 
-
-
-  # def show
-  #   if params[:company_id].present?
-  #     @opportunities=Opportunity.where(compnay_id: :params[:company_id])
-  #     render json: @opportunities
-  #   else
-  #     render json: I18n.t('errors.empty')
-  #   end
-  # end
-
-  def destroy
-    id = params[:id]
-    @opportunity=Opportunity.find(id)
-    @opportunity.delete
-    render json: I18n.t('success.delete')
-  end
-
-
   private
 
   def create_params
@@ -74,14 +55,6 @@ class OpportunitiesController < ApplicationController
 
   def update_params
     params.require(:opportunity).permit(:status, :no_of_applications, :designation, :skillset, :package, :start_date, :end_date)
-  end
-
-  def print (opportunities)
-    if opportunities.empty?
-      render json: I18n.t('errors.empty')
-    else
-      render json: opportunities
-    end
   end
 
 end

@@ -24,7 +24,9 @@ gem "puma", ">= 5.0"
 gem "jwt"
 gem "bcrypt", "~> 3.1.7"
 gem 'cancancan'
-gem 'rspec-rails'
+# gem 'rspec-rails'
+gem 'faker'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -40,6 +42,9 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -47,3 +52,6 @@ group :development do
   # gem "spring"
 end
 
+gem 'whenever'
+gem 'byebug'
+gem 'simplecov', require: false, group: :test

@@ -6,7 +6,7 @@ class Ability
   def initialize(user)
 
     if user.present?
-      # debugger
+      # byebug
       role=Role.find(user.role_id).name
       can [:index], :all
       can [:create, :update], Company if role=='tpo'

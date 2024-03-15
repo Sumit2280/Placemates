@@ -40,6 +40,7 @@ en:
 
   success:
     delete: "Successfully deleted Record."
+    close_opp: "Successfully closed opportunity"
 
   application:
     placed: "Can't apply!"

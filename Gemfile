@@ -55,3 +55,5 @@ end
 gem 'whenever'
 gem 'byebug'
 gem 'simplecov', require: false, group: :test
+gem 'shoulda'
+gem 'active_model_serializers'

@@ -8,7 +8,6 @@ RSpec.describe UsersController, type: :controller do
   let(:token_new) { encode(user_id: user.id)}
   let!(:token) { "Bearer #{token_new}"  }
 
-
   describe 'GET #index' do
     it 'renders JSON with first name' do
       request.headers["Authorization"]=token
@@ -43,6 +42,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'POST #create' do
+    # request.headers["Authorization"]=token
     it "Create user" do
       post :create, params: {
         user: {

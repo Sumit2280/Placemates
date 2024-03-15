@@ -138,7 +138,7 @@ RSpec.describe OpportunitiesController, type: :controller do
       post :close_opportunity, params: {
         id: 4
       }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:ok)
     end
   end
     

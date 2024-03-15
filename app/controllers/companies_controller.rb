@@ -1,7 +1,5 @@
 class CompaniesController < ApplicationController
   
-  # load_and_authorize_resource
-
   def index
     if params[:name].present?
       company=Company.where(name: params[:name])
@@ -12,7 +10,6 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    # byebug
     @company=Company.create(create_params)
     if @company.valid?
       render json: @company

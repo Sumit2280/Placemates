@@ -15,8 +15,9 @@ class Ability
       can [:create], StudentPlacement if role=='tpo'
       can [:create, :update, :destroy], UserApplication if role=='user'
       can :manage, :all if role=='admin'
+      can [:create], User  if role=='tpo'
     else
-      can [:create, :login], User
+      can [:login], User
     end
 
     # Define abilities for the user here. For example:

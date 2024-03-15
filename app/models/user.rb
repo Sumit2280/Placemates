@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  # include ActiveModel::Serialization
   has_secure_password
 
   belongs_to :role

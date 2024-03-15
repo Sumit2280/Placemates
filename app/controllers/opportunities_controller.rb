@@ -17,11 +17,12 @@ class OpportunitiesController < ApplicationController
   end
 
   def create
-    @opportunity=Opportunity.create(create_params)
-    if @opportunity.valid?
-      render json: @opportunity
+    opportunity=Opportunity.create(create_params)
+    if opportunity.valid?
+      render json: opportunity
     else
       render json: {error: I18n.t('errors.default')} , status: :unprocessable_entity
+      # record_invalid(opportunity)
     end
   end
 
@@ -45,6 +46,7 @@ class OpportunitiesController < ApplicationController
       user_application.status='not selected'
       user_application.save
     end
+     render json: {message: I18n.t('success.close_opp')}
   end
 
   private

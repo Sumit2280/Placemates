@@ -41,15 +41,20 @@ class UsersController < ApplicationController
 
   def update
     id = params[:id]
-    @user = User.find(id)
-    @user.update(update_params)
-    render json: @user
+    # byebug
+    if current_user.id==id
+      @user = User.find(id)
+      @user.update(update_params)
+      render json: @user
+    else
+      render json: {error: "Unauthorized"}, status: :unauthorized
+    end
   end
 
   def show
     id = params[:id]
-    @user = User.find(id)
-    render json: @user
+    user = User.find(id)
+    render json: user
   end
 
   # def destroy

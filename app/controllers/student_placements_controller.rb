@@ -1,14 +1,12 @@
 class StudentPlacementsController < ApplicationController
 
   def index
-
     if params[:company_id].present?
       @student_placements=StudentPlacement.where(company_id: params[:company_id])
       print(@student_placements)
     else
       parameter_missing
     end
-
   end
 
   def create
